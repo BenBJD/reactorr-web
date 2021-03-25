@@ -15,18 +15,12 @@ const IndexerSelect = () => {
 }
 
 const CatSelect = () => {
-    let categories = [
-        "2000: Movies",
-        "2500: TV",
-        "666: Satanic Rituals",
-        "1234: Something Else",
-    ]
+    const [categories, setCategories] = useState([])
+
     return (
         <div className="text-center w-1/2">
             <select className="dark:bg-mine-shaft-700 dark:text-mine-shaft-100 dark:hover:bg-mine-shaft-600 rounded-md h-10 w-4/6">
-                {categories.map((category, index) => (
-                    <option key={index}>{category}</option>
-                ))}
+                <option>uWu</option>
             </select>
         </div>
     )
