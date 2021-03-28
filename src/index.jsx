@@ -6,6 +6,7 @@ import { ResultsPage } from "./Results"
 import { SettingsPage } from "./Settings"
 import { SearchPage } from "./Search"
 
+
 const App = () => {
     return (
         <Router>
