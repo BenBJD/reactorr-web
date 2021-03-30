@@ -4,7 +4,7 @@ export const search = (term, indexer, category) => {
         category: category,
         indexer: indexer
     }
-    fetch(`${window.location.hostname}:${window.location.port}/search` + new URLSearchParams(params))
+    fetch(`localhost:${process.env.REACT_APP_API_PORT}/search` + new URLSearchParams(params))
         .then(function (response) {
             if (response.status !== 200) {
                 console.log("Status code:" + response.status)

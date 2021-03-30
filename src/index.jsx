@@ -6,7 +6,6 @@ import { ResultsPage } from "./Results"
 import { SettingsPage } from "./Settings"
 import { SearchPage } from "./Search"
 
-
 const App = () => {
     return (
         <Router>
@@ -16,6 +15,9 @@ const App = () => {
                 </Route>
                 <Route path="/settings">
                     <SettingsPage />
+                </Route>
+                <Route path="/test">
+                    <h1>{process.env.REACT_APP_PORT}</h1>
                 </Route>
                 <Route path="/">
                     <SearchPage />
