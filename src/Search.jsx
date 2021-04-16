@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React, { useState } from "react"
 import { MdClose, MdSearch } from "react-icons/md"
 

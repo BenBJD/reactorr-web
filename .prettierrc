@@ -1,14 +1,6 @@
-<<<<<<< HEAD
-{
-  "tabWidth": 4,
-  "useTabs": false,
-  "semi": false
-}
-=======
 {
   "tabWidth": 4,
   "useTabs": false,
   "semi": false,
   "endOfLine": "lf"
 }
->>>>>>> c194379a6756cf3c27a087146ec333d4e6268530
