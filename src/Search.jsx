@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useState } from "react"
 import { MdClose, MdSearch } from "react-icons/md"
 
@@ -15,32 +16,18 @@ const IndexerSelect = () => {
 }
 
 const CatSelect = () => {
-<<<<<<< Updated upstream
     let categories = [
         "2000: Movies",
         "2500: TV",
         "666: Satanic Rituals",
         "1234: Something Else",
     ]
-    return (
-        <div className="text-center w-1/2">
-            <select className="dark:bg-mine-shaft-700 dark:text-mine-shaft-100 dark:hover:bg-mine-shaft-600 rounded-md h-10 w-4/6">
-                {categories.map((category, index) => (
-                    <option key={index}>{category}</option>
-=======
-    const [categories, setCategories] = useState([
-        "1000",
-        "2000",
-        "3000"
-    ])
-
     
     return (
         <div className="text-center w-1/2">
             <select className="dark:bg-mine-shaft-700 dark:text-mine-shaft-100 dark:hover:bg-mine-shaft-600 rounded-md h-10 w-4/6">
                 {categories.map((item, index) => (
                     <option key={index}>{item}</option>
->>>>>>> Stashed changes
                 ))}
             </select>
         </div>
