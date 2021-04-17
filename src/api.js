@@ -1,63 +1,40 @@
-export const search = (term, indexer, category) => {
+import axios from "axios"
+
+export const getResults = async (term, indexer, category) => {
     let params = {
         q: term,
         category: category,
         indexer: indexer
     }
-    fetch(`localhost:${process.env.REACT_APP_API_PORT}/search` + new URLSearchParams(params))
-        .then(function (response) {
-            if (response.status !== 200) {
-                console.log("Status code:" + response.status)
-                return response.status
-            }
-            return response.json()
-        })
-        .catch(function (err) {
-            console.log("Fetch Error", err)
-        })
+    let response
+    response = await axios.get(`http://localhost:${process.env.REACT_APP_API_PORT}/search`, { params: params })
+    return response
 }
 
-export const indexers = () => {
-    fetch(`${window.location.hostname}:${window.location.port}/indexers`)
-        .then(function (response) {
-            if (response.status !== 200) {
-                console.log("Status code:" + response.status)
-                return response.status
-            }
-            return response.json()
-        })
-        .catch(function (err) {
-            console.log("Fetch Error", err)
-        })
+export const getIndexers = async () => {
+    let response
+    response = await axios.get(`http://localhost:${process.env.REACT_APP_API_PORT}/indexers`)
+    return response
 }
 
-export const recents = () => {
-    fetch(`${window.location.hostname}:${window.location.port}/recents`)
-        .then(function (response) {
-            if (response.status !== 200) {
-                console.log("Status code:" + response.status)
-                return response.status
-            }
-            return response.json()
-        })
-        .catch(function (err) {
-            console.log("Fetch Error", err)
-        })
-}
-
-export const removeRecent = (item) => {
+export const getRecents = async (number) => {
     let params = {
-        item: item
+        number: number,
     }
-    fetch(`${window.location.hostname}:${window.location.port}/removeRecent` + new URLSearchParams(params))
-        .then(function (response) {
-            if (response.status !== 200) {
-                console.log("Status code:" + response.status)
-                return response.status
-            }
-            return response.json()
-        })
-        .catch(function (err) {
-            console.log("Fetch Error", err)
-        })
+    let response = await axios.get(`http://localhost:${process.env.REACT_APP_API_PORT}/recents`, { params: params })
+    return response
 }
+
+export const removeRecent = async (id, all) => {
+    let params = {
+        id: id,
+        all: all,
+    }
+    let response = await axios.post(`http://localhost:${process.env.REACT_APP_API_PORT}/recents`, {}, { params: params })
+    return response
+}
+
+// Tests
+
+// search("Office", "1337x", 4000)
+//     .then(response => console.log(response))
