@@ -1,49 +1,69 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { MdClose, MdSearch } from "react-icons/md"
+import { useHistory } from "react-router"
+import { getRecents, getIndexers, removeRecent } from "./api"
 
-const IndexerSelect = () => {
-    let indexers = ["1337x", "RARBG", "Solid Torrents"]
-    return (
-        <div className="text-center w-1/2">
-            <select className="dark:bg-mine-shaft-700 dark:text-mine-shaft-100 dark:hover:bg-mine-shaft-600 rounded-md h-10 w-4/6">
-                {indexers.map((indexer, index) => (
-                    <option key={index}>{indexer}</option>
-                ))}
-            </select>
-        </div>
-    )
-}
+const SearchOptions = (props) => {
+    const [indexers, setIndexers] = useState([])
 
-const CatSelect = () => {
-    let categories = [
-        "2000: Movies",
-        "2500: TV",
-        "666: Satanic Rituals",
-        "1234: Something Else",
-    ]
+    useEffect(async () => {
+        let apiCall = await getIndexers()
+        setIndexers(apiCall.data)
+    }, [])
+
+    const handleIndexerSelect = (event) => {
+        props.setSelectedIndexer(event.target.value.split(","))
+    }
+
+    const handleCategorySelect = (event) => {
+        props.setSelectedCategory(event.target.value)
+    }
+
+    if (indexers.length === 0) {
+        return <div />
+    }
     
     return (
-        <div className="text-center w-1/2">
-            <select className="dark:bg-mine-shaft-700 dark:text-mine-shaft-100 dark:hover:bg-mine-shaft-600 rounded-md h-10 w-4/6">
-                {categories.map((item, index) => (
-                    <option key={index}>{item}</option>
-                ))}
-            </select>
+        <div className="flex flex-row">
+            <div className="text-center w-1/2">
+                <select onChange={handleIndexerSelect} className="dark:bg-mine-shaft-700 dark:text-mine-shaft-100 dark:hover:bg-mine-shaft-600 rounded-md h-10 w-4/6">
+                    {indexers.map((indexer, index) => (
+                        <option key={index} value={[indexer["title"], index]} title={indexer["title"]}>{indexer["title"]}</option>
+                    ))}
+                </select>
+            </div>
+            <div className="text-center w-1/2">
+                <select onChange={handleCategorySelect} className="dark:bg-mine-shaft-700 dark:text-mine-shaft-100 dark:hover:bg-mine-shaft-600 rounded-md h-10 w-4/6">
+                    {indexers[props.selectedIndexer[1]]["categories"].map((category, index) => (
+                        <option key={index} value={category["id"]}>{category["name"]}</option>
+                    ))}
+                </select>
+            </div>
         </div>
     )
 }
 
 const SearchForm = () => {
-    const [searchTerm, setSearchTerm] = useState("")
-
+    const [query, setquery] = useState("")
+    const [selectedIndexer, setSelectedIndexer] = useState(["", 0])
+    const [selectedCategory, setSelectedCategory] = useState("")
+    let history = useHistory()
+    
     const handleSearch = (event) => {
         if (event.key === "Enter") {
-            console.log(`Search for ${searchTerm}`)
+            history.push({
+                pathname: "/search",
+                state: {
+                    query: query,
+                    indexer: selectedIndexer,
+                    category: selectedCategory
+                }
+            })
         }
     }
 
     const handleChange = (event) => {
-        setSearchTerm(event.target.value)
+        setquery(event.target.value)
     }
 
     return (
@@ -55,13 +75,10 @@ const SearchForm = () => {
                     placeholder="Search"
                     onKeyPress={handleSearch}
                     onChange={handleChange}
-                    value={searchTerm}
+                    value={query}
                 />
             </div>
-            <div className="flex flex-row">
-                <IndexerSelect />
-                <CatSelect />
-            </div>
+            <SearchOptions selectedIndexer={selectedIndexer} setSelectedIndexer={setSelectedIndexer} selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />
         </div>
     )
 }
@@ -71,20 +88,29 @@ const RecentItem = (props) => {
         <li>
             <div className="flex flex-row m-3 p-2 rounded-md dark:bg-mine-shaft-600 dark:hover:bg-mine-shaft-500 dark:text-mine-shaft-200">
                 <p className="w-11/12">{props.term}</p>
-                <MdClose className="w-1/12 h-7 dark:hover:bg-mine-shaft-400" />
+                <MdClose className="w-1/12 h-7 dark:hover:bg-mine-shaft-400" onClick={() => props.handleRecentDelete(props.id)} />
             </div>
         </li>
     )
 }
 
 export const Card = () => {
-    let recentSearches = [
-        "Ubuntu",
-        "Weezer",
-        "Iron man",
-        "30 Rock",
-        "Office 2020 crack",
-    ]
+    const [recentSearches, setRecentSearches] = useState([])
+    
+    useEffect(async () => {
+        let apiCall = await getRecents(5)
+        setRecentSearches(apiCall.data)
+    }, [recentSearches.length])
+
+    const handleRecentDelete = async (id) => {
+        removeRecent(id, false)
+        setRecentSearches([])
+    }
+
+    if (recentSearches.length === 0) {
+        return <div />
+    }
+
     return (
         <div className="m-auto w-1/2 shadow-lg p-5 dark:bg-mine-shaft-700 bg-white rounded-md">
             <SearchForm />
@@ -96,7 +122,7 @@ export const Card = () => {
                 </div>
                 <ul>
                     {recentSearches.map((item, index) => (
-                        <RecentItem key={index} term={item} />
+                        <RecentItem key={index} id={item[0]} term={item[1]} handleRecentDelete={handleRecentDelete} />
                     ))}
                 </ul>
             </div>
