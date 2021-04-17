@@ -16,9 +16,6 @@ const App = () => {
                 <Route path="/settings">
                     <SettingsPage />
                 </Route>
-                <Route path="/test">
-                    <h1>{process.env.REACT_APP_PORT}</h1>
-                </Route>
                 <Route path="/">
                     <SearchPage />
                 </Route>
