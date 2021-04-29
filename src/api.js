@@ -7,13 +7,13 @@ export const getResults = async (term, indexer, category) => {
         indexer: indexer
     }
     let response
-    response = await axios.get(`http://localhost:${process.env.REACT_APP_API_PORT}/search`, { params: params })
+    response = await axios.get(`http://localhost:${process.env.REACT_APP_API_PORT}${REACT_APP_API_ROOT}/search`, { params: params })
     return response
 }
 
 export const getIndexers = async () => {
     let response
-    response = await axios.get(`http://localhost:${process.env.REACT_APP_API_PORT}/indexers`)
+    response = await axios.get(`http://localhost:${process.env.REACT_APP_API_PORT}${REACT_APP_API_ROOT}/indexers`)
     return response
 }
 
@@ -21,7 +21,7 @@ export const getRecents = async (number) => {
     let params = {
         number: number,
     }
-    let response = await axios.get(`http://localhost:${process.env.REACT_APP_API_PORT}/recents`, { params: params })
+    let response = await axios.get(`http://localhost:${process.env.REACT_APP_API_PORT}${REACT_APP_API_ROOT}/recents`, { params: params })
     return response
 }
 
@@ -30,7 +30,7 @@ export const removeRecent = async (id, all) => {
         id: id,
         all: all,
     }
-    let response = await axios.post(`http://localhost:${process.env.REACT_APP_API_PORT}/recents`, {}, { params: params })
+    let response = await axios.post(`http://localhost:${process.env.REACT_APP_API_PORT}${REACT_APP_API_ROOT}/recents`, {}, { params: params })
     return response
 }
 
