@@ -95,7 +95,7 @@ const RecentItem = (props) => {
 }
 
 export const Card = () => {
-    const [recentSearches, setRecentSearches] = useState([])
+    const [recentSearches, setRecentSearches] = useState(["Test search"])
     
     useEffect(async () => {
         let apiCall = await getRecents(5)
@@ -107,9 +107,9 @@ export const Card = () => {
         setRecentSearches([])
     }
 
-    if (recentSearches.length === 0) {
-        return <div />
-    }
+    // if (recentSearches.length === 0) {
+    //     return <div />
+    // }
 
     return (
         <div className="m-auto w-1/2 shadow-lg p-5 dark:bg-mine-shaft-700 bg-white rounded-md">

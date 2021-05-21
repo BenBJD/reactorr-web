@@ -1,33 +1,39 @@
 import React, { useEffect, useState } from "react"
 import moment from "moment"
 import fileSize from "filesize"
+import { FaMagnet } from "react-icons/fa"
 import { useLocation } from "react-router"
 import { getResults } from "./api"
 
 const SearchResult = props => {
     return (
         <li className="dark:bg-mine-shaft-600 rounded-md mb-3">
-            <p className="dark:text-mine-shaft-50 p-2 text-xl">
+            <a className="dark:text-mine-shaft-50 p-2 text-xl" href={props.item["link"]}>
                 {props.item["title"]}
-            </p>
+            </a>
             <ul className="inline-flex">
                 <li className="dark:bg-mine-shaft-500 rounded-md p-2 m-1">
-                    <p>
+                    <a href={props.item["magnet"]}>
+                        <FaMagnet className="dark:text-mine-shaft-100" />
+                    </a>
+                </li>
+                <li className="dark:bg-mine-shaft-500 rounded-md p-2 m-1">
+                    <p className="dark:text-mine-shaft-100">
                         Seeders: {props.item["seeders"]}
                     </p>
                 </li>
                 <li className="dark:bg-mine-shaft-500 rounded-md p-2 m-1">
-                    <p>
+                    <p className="dark:text-mine-shaft-100">
                         Peers: {props.item["peers"]}
                     </p>
                 </li>
                 <li className="dark:bg-mine-shaft-500 rounded-md p-2 m-1">
-                    <p>
+                    <p className="dark:text-mine-shaft-100">
                         Size: {fileSize(props.item["size"])}
                     </p>
                 </li>
                 <li className="dark:bg-mine-shaft-500 rounded-md p-2 m-1">
-                    <p>
+                    <p className="dark:text-mine-shaft-100">
                         Date: {moment(props.item["date"]).format("dddd, MMMM Do YYYY")}
                     </p>
                 </li>
@@ -57,7 +63,7 @@ export const ResultsPage = () => {
                 </h1>
             </div>
             <div className="m-auto w-3/4 shadow-lg p-5 dark:bg-mine-shaft-700 bg-white rounded-md">
-                <p className="text-4xl dark:text-mine-shaft-100 mb-4">Search Results</p>
+                <p className="text-4xl dark:text-mine-shaft-100 mb-4 justify-end">Search Results</p>
                 <ul>
                     {searchResults.map((item, index) => (
                         <SearchResult item={item} key={index} />
